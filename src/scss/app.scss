@@ -24,15 +24,38 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    justify-items: center;
+    grid-column-gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: 1260px) {
+      flex-direction: column-reverse;
+
+      .categories {
+        margin-top: 30px;
+        width: 500px;
+        overflow: scroll;
+        ul {
+          width: 100%;
+        }
+      }
+    }
+    @media (max-width: 645px) {
+      .categories {
+        width: 100%;
+        overflow: auto;
+      }
+      ul {
+        display: flex;
+        flex-direction: column;
+      }
+    }
   }
 }
 
@@ -73,7 +96,9 @@ body {
       }
     }
   }
-
+  .content__items {
+    display: block;
+  }
   &__clear {
     display: flex;
     align-items: center;

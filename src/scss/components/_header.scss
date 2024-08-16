@@ -8,6 +8,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 645px) {
+      h1,
+      p {
+        display: none;
+      }
+
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 
   &__logo {
