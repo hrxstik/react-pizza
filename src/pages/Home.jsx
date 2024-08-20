@@ -7,12 +7,21 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
+
 const Home = () => {
+  const dispatch = useDispatch();
+  const { categoryId, sort } = useSelector((state) => state.filter);
+  const sortType = sort.value;
+
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setcategoryId] = React.useState(0);
-  const [sortType, setSortType] = React.useState({ name: 'популярности', value: 'rating' });
   const [currentPage, setCurrentPage] = React.useState(1);
+
+  const onChangeCategory = (index) => {
+    dispatch(setCategoryId(index));
+  };
 
   const { searchValue } = React.useContext(SearchContext);
 
@@ -21,9 +30,9 @@ const Home = () => {
     fetch(
       `https://66bc4f4f24da2de7ff69f4a8.mockapi.io/items?page=${currentPage}&limit=4&${
         categoryId !== 0 ? `category=${categoryId}` : ''
-      }&sortBy=${sortType.value.replace('-', '')}&order=${
-        sortType.value.includes('-') ? 'asc' : 'desc'
-      }${searchValue ? `search=${searchValue}` : ''}`,
+      }&sortBy=${sortType.replace('-', '')}&order=${sortType.includes('-') ? 'asc' : 'desc'}${
+        searchValue ? `search=${searchValue}` : ''
+      }`,
     )
       .then((res) => {
         return res.json();
@@ -47,8 +56,8 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onChange={(index) => setcategoryId(index)} />
-        <Sort sortParams={sortType} onChange={(index) => setSortType(index)} />
+        <Categories value={categoryId} onChange={(index) => onChangeCategory(index)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
