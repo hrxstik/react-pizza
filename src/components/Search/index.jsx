@@ -6,6 +6,11 @@ import { SearchContext } from '../../App';
 const Search = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
 
+  const onClickClear = () => {
+    setSearchValue('');
+    document.querySelector('input').focus();
+  };
+
   return (
     <div>
       <input
@@ -16,7 +21,7 @@ const Search = () => {
       />
       {searchValue && (
         <svg
-          onClick={() => setSearchValue('')}
+          onClick={onClickClear}
           className={styles.cross}
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
