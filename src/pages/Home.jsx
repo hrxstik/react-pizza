@@ -81,7 +81,7 @@ const Home = () => {
   };
 
   React.useEffect(() => {
-    if (!isSearch.current) {
+    if (!isSearch.current || isMounted.current) {
       fetchPizzas();
     }
     isSearch.current = false;

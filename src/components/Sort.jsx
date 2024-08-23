@@ -15,6 +15,7 @@ export const list = [
 function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
+  const sortRef = React.useRef();
 
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -23,8 +24,21 @@ function Sort() {
     setIsVisible(false);
   };
 
+  React.useEffect(() => {
+    const handleOuterClick = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsVisible(false);
+      }
+    };
+    document.body.addEventListener('click', handleOuterClick);
+
+    return () => {
+      document.body.removeEventListener('click', handleOuterClick);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
