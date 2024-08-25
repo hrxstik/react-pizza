@@ -23,6 +23,15 @@ body {
     margin: 35px 0;
   }
 
+  &__error-text {
+    text-align: center;
+    margin: 60px;
+
+    p {
+      font-size: 20px;
+    }
+  }
+
   &__items {
     display: grid;
     justify-items: center;
