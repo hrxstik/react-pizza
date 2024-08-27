@@ -5,15 +5,19 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import { list } from '../components/Sort';
 
 import qs from 'qs';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import {
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+  selectFilter,
+} from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaSlice } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -21,9 +25,8 @@ const Home = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pizza);
-  const { searchValue } = React.useContext(SearchContext);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizzaSlice);
 
   const sortType = sort.value;
 
@@ -47,7 +50,6 @@ const Home = () => {
         }),
       );
       isSearch.current = true;
-      console.log(1);
     }
   }, []);
 
@@ -61,7 +63,6 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-    console.log(2);
   }, [categoryId, sortType, searchValue, currentPage]);
 
   const getPizzas = async () => {
@@ -86,7 +87,6 @@ const Home = () => {
   React.useEffect(() => {
     if (!isSearch.current || isMounted.current) {
       getPizzas();
-      console.log(3);
     }
     isSearch.current = true;
   }, [categoryId, sort.value, searchValue, currentPage]);
