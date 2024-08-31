@@ -5,7 +5,7 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { list } from '../components/Sort';
 
 import qs from 'qs';
@@ -91,7 +91,11 @@ const Home = () => {
     isSearch.current = true;
   }, [categoryId, sort.value, searchValue, currentPage]);
 
-  const pizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const pizzas = items.map((pizza) => (
+    <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
+      <PizzaBlock {...pizza} />
+    </Link>
+  ));
   const skeletons = [...new Array(10)].map((_, index) => <Skeleton key={index} />);
 
   return (
