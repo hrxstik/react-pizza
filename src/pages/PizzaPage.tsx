@@ -4,7 +4,11 @@ import axios from 'axios';
 
 const PizzaPage = () => {
   const { id } = useParams();
-  const [pizza, setPizza] = React.useState();
+  const [pizza, setPizza] = React.useState<{
+    imageUrl: string;
+    title: string;
+    price: number;
+  }>();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -26,6 +30,7 @@ const PizzaPage = () => {
         <h2>Загрузка...</h2>
       </div>
     );
+
   return (
     <div className="container">
       <img src={pizza.imageUrl} alt="Pizza" />
