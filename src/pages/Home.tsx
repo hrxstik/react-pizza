@@ -102,7 +102,10 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onChange={(index: number) => onChangeCategory(index)} />
+        <Categories
+          value={categoryId}
+          onChangeCategory={(index: number) => onChangeCategory(index)}
+        />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 
 import { setSearchValue } from '../../redux/slices/filterSlice';
 import styles from './Search.module.scss';
@@ -25,8 +25,7 @@ const Search = () => {
     //inputRef.current?.focus(); - оператор опциональной последовательности
   };
 
-  const onChangeInput = (event: any) => {
-    // any
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
     updateSearchValue(event.target.value);
   };
