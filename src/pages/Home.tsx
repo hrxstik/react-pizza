@@ -30,12 +30,12 @@ const Home = () => {
 
   const sortType = sort.value;
 
-  const onChangeCategory = (index) => {
+  const onChangeCategory = (index: number) => {
     dispatch(setCategoryId(index));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   React.useEffect(() => {
@@ -72,6 +72,7 @@ const Home = () => {
     const searchQuery = searchValue ? `search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         sortType,
         order,
@@ -91,7 +92,7 @@ const Home = () => {
     isSearch.current = true;
   }, [categoryId, sort.value, searchValue, currentPage]);
 
-  const pizzas = items.map((pizza) => (
+  const pizzas = items.map((pizza: any) => (
     <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
       <PizzaBlock {...pizza} />
     </Link>
@@ -101,7 +102,7 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onChange={(index) => onChangeCategory(index)} />
+        <Categories value={categoryId} onChange={(index: number) => onChangeCategory(index)} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>

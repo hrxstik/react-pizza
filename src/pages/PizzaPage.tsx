@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router';
 import axios from 'axios';
 
-const PizzaPage = () => {
+const PizzaPage: React.FC = () => {
   const { id } = useParams();
   const [pizza, setPizza] = React.useState<{
     imageUrl: string;
