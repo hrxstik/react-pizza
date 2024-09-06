@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSort, setSort } from '../redux/slices/filterSlice';
 
-type SortObj = {
+export type SortObj = {
   name: string;
   value: string;
 };

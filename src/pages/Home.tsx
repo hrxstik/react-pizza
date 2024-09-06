@@ -17,7 +17,7 @@ import {
   setFilters,
   selectFilter,
 } from '../redux/slices/filterSlice';
-import { fetchPizzas, selectPizzaSlice } from '../redux/slices/pizzaSlice';
+import { SearchPizzaParams, fetchPizzas, selectPizzaSlice } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -40,8 +40,8 @@ const Home = () => {
 
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.value === params.sortType);
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
+      const sort = list.find((obj) => obj.value === params.sortBy);
 
       dispatch(
         setFilters({
@@ -78,7 +78,7 @@ const Home = () => {
         order,
         category,
         searchQuery,
-        currentPage,
+        currentPage: String(currentPage),
       }),
     );
 
