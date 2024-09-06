@@ -1,16 +1,16 @@
 import React from 'react';
 
 import Categories from '../components/Categories';
-import Sort from '../components/Sort';
+import SortPopUp from '../components/SortPopUp';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { Link, useNavigate } from 'react-router-dom';
-import { list } from '../components/Sort';
+import { list } from '../components/SortPopUp';
 
 import qs from 'qs';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   setCategoryId,
   setCurrentPage,
@@ -18,9 +18,10 @@ import {
   selectFilter,
 } from '../redux/slices/filterSlice';
 import { SearchPizzaParams, fetchPizzas, selectPizzaSlice } from '../redux/slices/pizzaSlice';
+import { useAppDispatch } from '../redux/store';
 
 const Home = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
@@ -41,12 +42,14 @@ const Home = () => {
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-      const sort = list.find((obj) => obj.value === params.sortBy);
+      const sort = list.find((obj) => obj.value === params.sortBy.value);
 
       dispatch(
         setFilters({
-          ...params,
-          sort,
+          searchValue: params.searchQuery,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: params.sortBy,
         }),
       );
       isSearch.current = true;
@@ -72,9 +75,8 @@ const Home = () => {
     const searchQuery = searchValue ? `search=${searchValue}` : '';
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
-        sortType,
+        sortBy: sort,
         order,
         category,
         searchQuery,
@@ -106,7 +108,7 @@ const Home = () => {
           value={categoryId}
           onChangeCategory={(index: number) => onChangeCategory(index)}
         />
-        <Sort />
+        <SortPopUp />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (

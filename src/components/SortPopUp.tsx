@@ -1,30 +1,25 @@
 import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectSort, setSort } from '../redux/slices/filterSlice';
+import { Sort, selectSort, setSort, SortValue } from '../redux/slices/filterSlice';
 
-export type SortObj = {
-  name: string;
-  value: string;
-};
-
-export const list: SortObj[] = [
-  { name: 'популярности (по убыванию)', value: 'rating' },
-  { name: 'популярности (по возрастанию)', value: '-rating' },
-  { name: 'цене (по убыванию)', value: 'price' },
-  { name: 'цене (по возрастанию)', value: '-price' },
-  { name: 'алфавиту (с начала)', value: 'title' },
-  { name: 'алфавиту (с конца)', value: '-title' },
+export const list: Sort[] = [
+  { name: 'популярности (по убыванию)', value: SortValue.RATING_ASC },
+  { name: 'популярности (по возрастанию)', value: SortValue.RATING_DESC },
+  { name: 'цене (по убыванию)', value: SortValue.PRICE_ASC },
+  { name: 'цене (по возрастанию)', value: SortValue.PRICE_DESC },
+  { name: 'алфавиту (с начала)', value: SortValue.TITLE_ASC },
+  { name: 'алфавиту (с конца)', value: SortValue.TITLE_DESC },
 ];
 
-function Sort() {
+function SortPopUp() {
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
   const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [isVisible, setIsVisible] = React.useState(false);
 
-  const onClickListItem = (obj: SortObj) => {
+  const onClickListItem = (obj: Sort) => {
     dispatch(setSort(obj));
     setIsVisible(false);
   };
@@ -77,4 +72,4 @@ function Sort() {
   );
 }
 
-export default Sort;
+export default SortPopUp;

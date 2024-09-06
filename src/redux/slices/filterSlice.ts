@@ -3,9 +3,16 @@ import { RootState } from '../store';
 
 export type Sort = {
   name: string;
-  value: 'rating' | '-rating' | 'price' | '-price' | 'title' | '-title';
+  value: SortValue;
 };
-
+export enum SortValue {
+  RATING_ASC = 'rating',
+  RATING_DESC = '-rating',
+  PRICE_ASC = 'price',
+  PRICE_DESC = '-price',
+  TITLE_ASC = 'title',
+  TITLE_DESC = '-title',
+}
 export interface FilterState {
   categoryId: number;
   searchValue: string;
@@ -17,7 +24,7 @@ const initialState: FilterState = {
   categoryId: 0,
   searchValue: '',
   currentPage: 1,
-  sort: { name: 'популярности', value: 'rating' },
+  sort: { name: 'популярности', value: SortValue.RATING_ASC },
 };
 
 export const filterSlice = createSlice({
