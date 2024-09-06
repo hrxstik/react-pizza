@@ -2,12 +2,12 @@ import pizzaSvg from '../assets/img/pizza-logo.svg';
 import { Link, useLocation } from 'react-router-dom';
 import Search from './Search';
 import { useSelector } from 'react-redux';
-import { selectCart } from '../redux/slices/cartSlice';
+import { TCartItem, selectCart } from '../redux/slices/cartSlice';
 
 function Header() {
   const { items, totalPrice } = useSelector(selectCart);
   const pathName = useLocation().pathname;
-  const totalItems = items.reduce((sum: number, obj: any) => obj.count + sum, 0); // any
+  const totalItems = items.reduce((sum: number, obj: TCartItem) => obj.count + sum, 0);
 
   return (
     <div className="header">

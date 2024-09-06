@@ -2,7 +2,7 @@ import React from 'react';
 
 import Categories from '../components/Categories';
 import SortPopUp from '../components/SortPopUp';
-import PizzaBlock from '../components/PizzaBlock';
+import PizzaBlock, { PizzaBlockProps } from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { Link, useNavigate } from 'react-router-dom';
@@ -42,16 +42,17 @@ const Home = () => {
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-      const sort = list.find((obj) => obj.value === params.sortBy.value);
-
-      dispatch(
-        setFilters({
-          searchValue: params.searchQuery,
-          categoryId: Number(params.category),
-          currentPage: Number(params.currentPage),
-          sort: params.sortBy,
-        }),
-      );
+      const sort = list.find((obj) => obj.value === params.sortBy);
+      if (sort) {
+        dispatch(
+          setFilters({
+            searchValue: params.searchQuery,
+            categoryId: Number(params.category),
+            currentPage: Number(params.currentPage),
+            sort: sort || list[0],
+          }),
+        );
+      }
       isSearch.current = true;
     }
   }, []);
@@ -76,7 +77,7 @@ const Home = () => {
 
     dispatch(
       fetchPizzas({
-        sortBy: sort,
+        sortBy: sortType,
         order,
         category,
         searchQuery,
@@ -94,10 +95,11 @@ const Home = () => {
     isSearch.current = true;
   }, [categoryId, sort.value, searchValue, currentPage]);
 
-  const pizzas = items.map((pizza: any) => (
-    <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
-      <PizzaBlock {...pizza} />
-    </Link>
+  const pizzas = items.map((pizza: PizzaBlockProps) => (
+    // <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
+    //   <PizzaBlock {...pizza} />
+    // </Link>
+    <PizzaBlock key={pizza.id} {...pizza} />
   ));
   const skeletons = [...new Array(10)].map((_, index) => <Skeleton key={index} />);
 

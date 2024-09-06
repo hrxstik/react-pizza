@@ -4,7 +4,7 @@ import { RootState } from '../store';
 import { Sort } from './filterSlice';
 
 export type SearchPizzaParams = {
-  sortBy: Sort;
+  sortBy: string;
   order: string;
   category: string;
   searchQuery: string;
@@ -19,7 +19,7 @@ export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>(
     const { sortBy, order, category, searchQuery, currentPage } = params;
 
     const { data } = await axios.get<Pizza[]>(
-      `https://66bc4f4f24da2de7ff69f4a8.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy.value}&order=${order}&${searchQuery}`,
+      `https://66bc4f4f24da2de7ff69f4a8.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${searchQuery}`,
     );
     // if (data.length === 0) {
     //   return thunkAPI.rejectWithValue('Пиццы пустые');

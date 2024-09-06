@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { ItemToAdd } from '../../components/PizzaBlock';
 
-export type CartItem = {
+export type TCartItem = {
   id: string;
   title: string;
   price: number;
@@ -14,7 +14,7 @@ export type CartItem = {
 
 interface CartState {
   totalPrice: number;
-  items: CartItem[];
+  items: TCartItem[];
 }
 const initialState: CartState = {
   totalPrice: 0,
